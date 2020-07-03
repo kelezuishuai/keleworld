@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Version 2019
  * @Author:kele
@@ -19,6 +22,7 @@ public class ShiroConfig {
     /**
      * 创建ShiroFilterFactoryBean
      */
+    @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager){
 
         //设置安全管理器
@@ -34,6 +38,20 @@ public class ShiroConfig {
          * perms:该资源必须得到权限才能访问
          * role:该资源必须得到角色权限才能访问
          */
+
+        Map<String,String> map=new HashMap<String, String>();
+        //设置需要认证才能访问的页面
+        map.put("/test/add","authc");
+        map.put("/test/update","authc");
+
+        //设置哪些页面不需要认证就能访问
+        map.put("test","anon");
+       // map.put("/test/login","anon");
+
+        //map.put("/test/*","authc");
+        //修改调整的登陆页面
+        shiroFilterFactoryBean.setLoginUrl("/test/tologin");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
     }
 
