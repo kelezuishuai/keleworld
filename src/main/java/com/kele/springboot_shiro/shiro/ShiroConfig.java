@@ -46,7 +46,7 @@ public class ShiroConfig {
 
         //设置哪些页面不需要认证就能访问
         map.put("test","anon");
-       // map.put("/test/login","anon");
+       map.put("/test/login","anon");
 
         //map.put("/test/*","authc");
         //修改调整的登陆页面
