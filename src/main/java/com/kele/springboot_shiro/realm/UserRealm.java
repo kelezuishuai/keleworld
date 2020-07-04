@@ -1,9 +1,12 @@
 package com.kele.springboot_shiro.realm;
 
+import com.kele.springboot_shiro.entity.User;
+import com.kele.springboot_shiro.service.impl.UserUserServiceImpl;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @Version 2019
@@ -29,23 +32,28 @@ public class UserRealm extends AuthorizingRealm {
      * @return
      * @throws AuthenticationException
      */
+
+    @Autowired
+    private UserUserServiceImpl userService;
+
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
         System.out.println("执行执行认证逻辑。。。");
 
-        String name="admin";
-        String password="123456";
+//        String name="admin";
+//        String password="123456";
 
         //判断用户名和密码
         UsernamePasswordToken token= (UsernamePasswordToken) authenticationToken;
+        User user = userService.findByName(token.getUsername());
         //判断用户名
-        if(!token.getUsername().equals(name)){
+        if(user==null){
             return null;
         }
         //判断密码
 
 
-        return new SimpleAuthenticationInfo("",password,"");
+        return new SimpleAuthenticationInfo("",user.getPassword(),"");
     }
 }

@@ -41,6 +41,7 @@ public class ShiroConfig {
 
         Map<String,String> map=new HashMap<String, String>();
         //设置需要认证才能访问的页面
+        map.put("/test/hello","authc");
         map.put("/test/add","authc");
         map.put("/test/update","authc");
 
